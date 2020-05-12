@@ -1,26 +1,31 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using System;
 
 namespace SeeqUdem
 {
     internal class SeequentHomePage
     {
-        private object driver;
+        private IWebDriver Driver { get; set; }
 
-        public SeequentHomePage(object driver)
+        public SeequentHomePage(IWebDriver driver)
         {
-            this.driver = driver;
+            Driver = driver;
         }
 
-        public bool IsVisible { get; internal set; }
+        public bool IsVisible => PageTitle.Displayed;
+        public IWebElement PageTitle => Driver.FindElement(By.XPath(".//*[text()='From Complexity to Clarity'] "));
+        public IWebElement SolutionsButton => Driver.FindElement(By.XPath(".//*[text()='Our Solutions'] "));
 
+        
         internal void GoTo()
         {
-            throw new NotImplementedException();
+            Driver.Navigate().GoToUrl("http://www.seequent.com");
         }
 
-        internal SequeentSolutionsPage GotoSolutions()
+        internal SeequentSolutionsPage GotoSolutions()
         {
-            throw new NotImplementedException();
+            SolutionsButton.Click();
+            return new SeequentSolutionsPage(Driver);
         }
     }
 }
