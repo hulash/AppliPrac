@@ -1,25 +1,30 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using System;
 
 namespace SeeqUdem
 {
-    internal class SeequentHomePage
+    internal class SeequentHomePage : BasePage
+
     {
-        private IWebDriver Driver { get; set; }
-
-        public SeequentHomePage(IWebDriver driver)
+        public SeequentHomePage(IWebDriver driver) : base(driver){}
+        private string PageTitle => "Seequent: Solutions for the mining, civil, environmental & energy industries";
+        public bool IsVisible
         {
-            Driver = driver;
+            get
+            {
+                return Driver.Title.Contains(PageTitle);
+            }
+            internal set { }
         }
-
-        public bool IsVisible => PageTitle.Displayed;
-        public IWebElement PageTitle => Driver.FindElement(By.XPath(".//*[text()='From Complexity to Clarity'] "));
         public IWebElement SolutionsButton => Driver.FindElement(By.XPath(".//*[text()='Our Solutions'] "));
 
-        
         internal void GoTo()
         {
             Driver.Navigate().GoToUrl("http://www.seequent.com");
+            Assert.IsTrue(IsVisible,
+               $"Seequent homepage was not visible. Expected=>{PageTitle}." + 
+               $"Actual=>{Driver.Title}");
         }
 
         internal SeequentSolutionsPage GotoSolutions()

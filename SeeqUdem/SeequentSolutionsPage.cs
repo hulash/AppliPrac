@@ -2,20 +2,23 @@
 
 namespace SeeqUdem
 {
-    internal class SeequentSolutionsPage
-    { 
-         private IWebDriver Driver { get; set; }
-
-    public SeequentSolutionsPage(IWebDriver driver)
+    internal class SeequentSolutionsPage : BasePage
     {
-        Driver = driver;
-    }
+        public SeequentSolutionsPage(IWebDriver driver) : base(driver) { }
 
-    public bool IsVisible
-        {
+        public bool IsVisible {
             get
             {
-                return Driver.Title.Contains("Solutions - Innovative Geoscience Solutions - Seequent");
+                try
+                {
+                    return Driver.Title.Contains("Solutions - Innovative Geoscience Solutions - Seequent");
+                }
+                catch (NoSuchElementException)
+                {
+
+                    return false;
+                }
+             
             }
             internal set { }
         }
